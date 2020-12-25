@@ -1,25 +1,47 @@
-import logo from './logo.svg';
 import './App.css';
+import React from "react";
+import Game from "./Game.js";
+import Settings from "./Settings.js";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {change: null,
+                  gridSize: 10};
+
+    this.handleGridSizeChange = this.handleGridSizeChange.bind(this);
+    this.handleStartClick = this.handleStartClick.bind(this);
+    this.handleStopClick = this.handleStopClick.bind(this);
+  }
+
+  handleGridSizeChange(newSize) {
+    this.setState({change: "grid", gridSize: newSize});
+  }
+
+  handleStartClick() {
+    this.setState({change: "start"});
+  }
+
+  handleStopClick() {
+    this.setState({change: "stop"});
+  }
+
+  render() {
+      return (
+          <div className="App">
+              <div className="App-Game">
+                  <Game change={this.state.change} gridSize={this.state.gridSize} start={this.state.start}/>
+              </div>
+              <div className="App-Settings">
+                  <Settings gridSize={this.state.gridSize}
+                            onGridSizeChange={this.handleGridSizeChange}
+                            onStartClick={this.handleStartClick}
+                            onStopClick={this.handleStopClick}
+                  />
+              </div>
+          </div>
+      );
+  }
 }
 
 export default App;
