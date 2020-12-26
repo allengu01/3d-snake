@@ -2,6 +2,21 @@ import React from "react";
 import "./Settings.css";
 import ControlsImage from "./controls.svg";
 
+class Instructions extends React.Component {
+    render() {
+        return (
+            <div className="Instructions">
+                <div className="Instructions-Header">Instructions</div>
+                <ol>
+                    <li>Choose the size.</li>
+                    <li>Click "Start" or use the space bar to begin playing.</li>
+                    <li>Have fun :)</li>
+                </ol>
+            </div>
+        )
+    }
+}
+
 class BoundsSizeInput extends React.Component {
     constructor(props) {
         super(props);
@@ -17,7 +32,7 @@ class BoundsSizeInput extends React.Component {
     render() {
         return (
             <label className="bounds-size-label">
-                Bounds Size: 
+                Size: 
                 <select className="bounds-size-select" value={this.props.value} onChange={this.handleChange}>
                     <option value="7">Small</option>
                     <option value="15">Medium</option>
@@ -117,6 +132,7 @@ class Settings extends React.Component {
     render() {
         return (
             <div className="Settings">
+                <Instructions />
                 <BoundsSizeInput value={this.props.boundsSize}
                                  gameState={this.props.gameState} 
                                  onBoundsSizeChange={this.props.onBoundsSizeChange} />
@@ -125,7 +141,6 @@ class Settings extends React.Component {
                     <StopButton onStopClick={this.props.onStopClick} />
                     <ResetButton onResetClick={this.props.onResetClick} />
                 </div>
-
                 <Controls />
                 <ToDoList />
             </div>

@@ -4,6 +4,16 @@
     color: #eeeeee;
 }
 
+.Instructions-Header {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.Instructions ol {
+    margin-top: 0;
+    text-decoration: none;
+}
+
 .bounds-size-label {
     font-size: 1.2rem;
     font-weight: 700;

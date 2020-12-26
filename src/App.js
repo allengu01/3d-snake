@@ -16,6 +16,7 @@ class App extends React.Component {
     this.handleScoreChange = this.handleScoreChange.bind(this);
     this.handleStartClick = this.handleStartClick.bind(this);
     this.handleStopClick = this.handleStopClick.bind(this);
+    this.handleSpaceBar = this.handleSpaceBar.bind(this);
     this.handleResetClick = this.handleResetClick.bind(this);
     this.handleGameOver = this.handleGameOver.bind(this);
   }
@@ -39,6 +40,15 @@ class App extends React.Component {
     }
   }
 
+  handleSpaceBar() {
+    if (this.state.gameState === "initial" || this.state.gameState === "stopped") {
+      this.setState({change: "start", gameState: "started"});
+    }
+    else if (this.state.gameState === "started") {
+      this.setState({change: "stop", gameState: "stopped"});
+    }
+  }
+
   handleResetClick() {
     this.setState({change: "reset", gameState: "initial"});
   }
@@ -58,6 +68,7 @@ class App extends React.Component {
                   <Game change={this.state.change} 
                         boundsSize={this.state.boundsSize} 
                         gameState={this.state.gameState}
+                        onSpaceBar={this.handleSpaceBar}
                         onScoreChange={this.handleScoreChange}
                         onGameOver={this.handleGameOver}/>
               </div>

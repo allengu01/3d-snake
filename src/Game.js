@@ -270,32 +270,37 @@ class Game extends React.Component {
 	}
 
 	handleKeyDown(e) {
-		if (this.props.gameState !== "started") {
+		e.preventDefault();
+		if (e.keyCode == 32) {
+			this.props.onSpaceBar();
+		}
+		else if (this.props.gameState !== "started") {
 			return;
 		}
-		console.log("pass");
-		e.preventDefault();
-		switch(e.keyCode) {
-			case 37:
-				this.dir = "-x";
-				break;
-			case 38:
-				this.dir = "-z";
-				break;
-			case 39:
-				this.dir = "+x";
-				break;
-			case 40:
-				this.dir = "+z";
-				break;
-			case 88:
-				this.dir = "-y";
-				break;
-			case 90:
-				this.dir = "+y";
-				break;
-			default:
-				break;
+		else {
+			console.log("pass");
+			switch(e.keyCode) {
+				case 37:
+					this.dir = "-x";
+					break;
+				case 38:
+					this.dir = "-z";
+					break;
+				case 39:
+					this.dir = "+x";
+					break;
+				case 40:
+					this.dir = "+z";
+					break;
+				case 88:
+					this.dir = "-y";
+					break;
+				case 90:
+					this.dir = "+y";
+					break;
+				default:
+					break;
+			}
 		}
 	}
 
