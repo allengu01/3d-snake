@@ -17,6 +17,7 @@ class Game extends React.Component {
 
 		this.initiate.bind(this);
 		this.reset.bind(this);
+		this.changeScore.bind(this);
 		this.turn.bind(this);
 		this.hashPosition.bind(this);
 		this.getRandomBetween.bind(this);
@@ -58,7 +59,6 @@ class Game extends React.Component {
 		}
 		else if (this.props.change === "gameover") {
 			this.stopAnimation();
-			this.lost = true;
 		}
 	}
 
@@ -68,22 +68,22 @@ class Game extends React.Component {
 
 	initiate() {
 		this.animation = undefined;
-		console.log(this.grid);
 		this.camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
 		this.scene = new THREE.Scene();
-		this.renderer = new THREE.WebGLRenderer({antialias: true});
+		this.renderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
 		this.renderer.setSize(width, height);
+		this.renderer.setClearColor(0x000000, 0);
 		
-		this.boundsMaterial = new THREE.MeshLambertMaterial({ color: 0xff0000, transparent: true, opacity: 0.15});
+		this.boundsMaterial = new THREE.MeshLambertMaterial({color: 0xff0000, transparent: true, opacity: 0.15});
 		this.bounds = this.createBounds();
 		this.scene.add(this.bounds);
 
 		this.snake = [];
 		this.snakeGeometry = new THREE.BoxGeometry(1, 1, 1);
-		this.snakeMaterial = new THREE.MeshLambertMaterial({ color: 0x00ff00 });
+		this.snakeMaterial = new THREE.MeshLambertMaterial({color: 0x00ff00});
 
 		this.foodGeometry = new THREE.BoxGeometry(1, 1, 1);
-		this.foodMaterial = new THREE.MeshLambertMaterial({ color: 0xff0000 });
+		this.foodMaterial = new THREE.MeshLambertMaterial({color: 0xff0000});
 
 		this.light = new THREE.PointLight(0xFFFFFF, 1, 0);
 		this.light.position.set(30, 30, 30);
@@ -96,6 +96,7 @@ class Game extends React.Component {
 	}
 
 	reset() {
+		this.changeScore(0);
 		this.grid = {};
 		this.current = new THREE.Vector3(0, 0, 0);
 		this.dir = "+z";
@@ -215,13 +216,16 @@ class Game extends React.Component {
 	}
 
 	changeBounds(newSize) {
-		// const previousSize = this.bounds.geometry.parameters.height;
-
 		this.scene.remove(this.bounds);
 		this.bounds = this.createBounds();
 		this.scene.add(this.bounds);
 
 		this.camera.position.set(newSize, newSize, newSize * 1.25);
+	}
+
+	changeScore(newScore) {
+		this.score = newScore;
+		this.props.onScoreChange(this.score);
 	}
 
 	turn() {
@@ -233,6 +237,7 @@ class Game extends React.Component {
 			this.gameOver();
 		}
 		else if (this.grid[this.hashPosition(this.current)] === 'food') {
+			this.changeScore(this.score + 1);
 			this.moveFoodRandom(this.food);
 			this.createSnakeBody(this.current.getComponent(0), this.current.getComponent(1), this.current.getComponent(2));
 			this.renderer.render(this.scene, this.camera);
@@ -253,9 +258,8 @@ class Game extends React.Component {
 				if (this.props.gameState === "started") {
 					this.animation = requestAnimationFrame(animate);
 					this.turn();
-
 				}
-			}, 1000);
+			}, 1000 / 1.5);
 		};
 		
 		this.animation = requestAnimationFrame(animate);
@@ -297,7 +301,9 @@ class Game extends React.Component {
 
 	render() {
 		return (
-			<div className="Game" ref={ref => (this.mount = ref)} onKeyDown={this.handleKeyDown} />
+			<div className="Game">
+				<div className="Gameboard" ref={ref => (this.mount = ref)} onKeyDown={this.handleKeyDown} />
+			</div>
 		)
 	}
 }

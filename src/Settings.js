@@ -1,4 +1,5 @@
 import React from "react";
+import "./Settings.css";
 import ControlsImage from "./controls.svg";
 
 class BoundsSizeInput extends React.Component {
@@ -15,9 +16,9 @@ class BoundsSizeInput extends React.Component {
 
     render() {
         return (
-            <label>
-                Bounds Size:
-                <select value={this.props.value} onChange={this.handleChange}>
+            <label className="bounds-size-label">
+                Bounds Size: 
+                <select className="bounds-size-select" value={this.props.value} onChange={this.handleChange}>
                     <option value="7">Small</option>
                     <option value="15">Medium</option>
                     <option value="25">Large</option>
@@ -40,10 +41,10 @@ class StartButton extends React.Component {
 
     render() {
         return (
-            <div className="start-button">
+            <a className="start-button">
                 <button onClick={this.handleClick}>Start</button>
-            </div>
-        )
+            </a>
+        )   
     }
 }
 
@@ -59,9 +60,9 @@ class StopButton extends React.Component {
 
     render() {
         return (
-            <div className="start-button">
+            <a className="start-button">
                 <button onClick={this.handleClick}>Stop</button>
-            </div>
+            </a>
         )
     }
 }
@@ -78,9 +79,9 @@ class ResetButton extends React.Component {
 
     render() {
         return (
-            <div className="reset-button">
+            <a className="reset-button">
                 <button onClick={this.handleClick}>Reset</button>
-            </div>
+            </a>
         )
     }
 }
@@ -90,7 +91,23 @@ class Controls extends React.Component {
         return (
             <div className="Controls">
                 <div>Controls</div>
-                <img src={ControlsImage} alt="Controls" width="320px" height="320px"></img>
+                <img src={ControlsImage} alt="Controls" width="200px" height="200px"></img>
+            </div>
+        )
+    }
+}
+
+class ToDoList extends React.Component {
+    render() {
+        return (
+            <div className="ToDo">
+                To Do:
+                <ul>
+                    <li>Better 3D depth or grid?</li>
+                    <li>First person mode</li>
+                    <li>Leaderboard</li>
+                    <li>Pathfinding AI</li>
+                </ul>
             </div>
         )
     }
@@ -99,15 +116,19 @@ class Controls extends React.Component {
 class Settings extends React.Component {
     render() {
         return (
-            <>
+            <div className="Settings">
                 <BoundsSizeInput value={this.props.boundsSize}
                                  gameState={this.props.gameState} 
                                  onBoundsSizeChange={this.props.onBoundsSizeChange} />
-                <StartButton onStartClick={this.props.onStartClick} />
-                <StopButton onStopClick={this.props.onStopClick} />
-                <ResetButton onResetClick={this.props.onResetClick} />
+                <div className="SettingsButtons">
+                    <StartButton onStartClick={this.props.onStartClick} />
+                    <StopButton onStopClick={this.props.onStopClick} />
+                    <ResetButton onResetClick={this.props.onResetClick} />
+                </div>
+
                 <Controls />
-            </>
+                <ToDoList />
+            </div>
         );
     }
 }

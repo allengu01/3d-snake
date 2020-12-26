@@ -1,0 +1,9 @@
+.Scoreboard {
+    position: absolute;
+    left: calc(33vw - 20px);
+    top: 20px;
+    color: #eeeeee;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+}

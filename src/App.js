@@ -2,15 +2,18 @@ import './App.css';
 import React from "react";
 import Game from "./Game.js";
 import Settings from "./Settings.js";
+import Scoreboard from "./Scoreboard.js";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {change: null,
                   gameState: "initial",
-                  boundsSize: 7};
+                  boundsSize: 7,
+                  score: 0};
 
     this.handleBoundsSizeChange = this.handleBoundsSizeChange.bind(this);
+    this.handleScoreChange = this.handleScoreChange.bind(this);
     this.handleStartClick = this.handleStartClick.bind(this);
     this.handleStopClick = this.handleStopClick.bind(this);
     this.handleResetClick = this.handleResetClick.bind(this);
@@ -40,6 +43,10 @@ class App extends React.Component {
     this.setState({change: "reset", gameState: "initial"});
   }
 
+  handleScoreChange(newScore) {
+    this.setState({change: "score", score: newScore});
+  }
+
   handleGameOver() {
     this.setState({change: "gameover", gameState: "gameover"});
   }
@@ -51,6 +58,7 @@ class App extends React.Component {
                   <Game change={this.state.change} 
                         boundsSize={this.state.boundsSize} 
                         gameState={this.state.gameState}
+                        onScoreChange={this.handleScoreChange}
                         onGameOver={this.handleGameOver}/>
               </div>
               <div className="App-Settings">
@@ -61,6 +69,9 @@ class App extends React.Component {
                             onStopClick={this.handleStopClick}
                             onResetClick={this.handleResetClick}
                   />
+              </div>
+              <div className="App-Scoreboard">
+                  <Scoreboard score={this.state.score} />
               </div>
           </div>
       );

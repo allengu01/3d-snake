@@ -1,0 +1,72 @@
+.Settings {
+    margin: 8.33% 50px 8.33% 50px;
+    font-family: 'Open Sans', sans-serif;
+    color: #eeeeee;
+}
+
+.bounds-size-label {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.bounds-size-select {
+    appearance: none;
+    background-color: transparent;
+    border: 2px solid #00ff00;
+    border-radius: 1.0rem;
+    margin-top: 0.33rem;
+    margin-left: 0.5rem;
+    padding: 0.2rem 1.0rem;
+    font-family: inherit;
+    font-size: 1.0rem;
+    font-weight: 700;
+    color: #eeeeee;
+}
+
+.bounds-size-select:active {
+    appearance: none;
+}
+
+.bounds-size-select:hover {
+    background-color: rgba(0, 255, 0, 0.3);
+}
+
+.SettingsButtons {
+    display: flex;
+    justify-content: flex-start;
+    margin: 1.0rem 0 1.0rem 0;
+    align-items: center;
+}
+
+.SettingsButtons button {
+    appearance: none;
+    background-color: transparent;
+    border: 2px solid #00ff00;
+    border-radius: 1.0rem;
+    font-family: inherit;
+    font-size: 1.0rem;
+    font-weight: 700;
+    color: #eeeeee;
+    padding: 0.2rem 1.0rem;
+    margin-right: 0.5rem;
+}
+
+.SettingsButtons button:hover {
+    background-color: rgba(0, 255, 0, 0.3);
+}
+
+.Controls {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.ToDo {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.ToDo ul {
+    margin-top: 0;
+    font-size: 1.0rem;
+    font-weight: 400;
+}
