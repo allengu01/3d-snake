@@ -1,24 +1,26 @@
 import React from "react";
+import ControlsImage from "./controls.svg";
 
-class GridSizeInput extends React.Component {
+class BoundsSizeInput extends React.Component {
     constructor(props) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
     }
 
     handleChange(e) {
-        this.props.onGridSizeChange(e.target.value);
+        if (this.props.gameState === "initial") {
+            this.props.onBoundsSizeChange(e.target.value);
+        }
     }
 
     render() {
         return (
             <label>
-                Grid Size:
+                Bounds Size:
                 <select value={this.props.value} onChange={this.handleChange}>
-                    <option value="10">10 x 10 x 10</option>
-                    <option value="15">15 x 15 x 15</option>
-                    <option value="20">20 x 20 x 20</option>
-                    <option value="25">25 x 25 x 25</option>
+                    <option value="7">Small</option>
+                    <option value="15">Medium</option>
+                    <option value="25">Large</option>
                 </select>
             </label>
 
@@ -64,14 +66,47 @@ class StopButton extends React.Component {
     }
 }
 
+class ResetButton extends React.Component {
+    constructor(props) {
+        super(props);
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick(e) {
+        this.props.onResetClick();
+    }
+
+    render() {
+        return (
+            <div className="reset-button">
+                <button onClick={this.handleClick}>Reset</button>
+            </div>
+        )
+    }
+}
+
+class Controls extends React.Component {
+    render() {
+        return (
+            <div className="Controls">
+                <div>Controls</div>
+                <img src={ControlsImage} alt="Controls" width="320px" height="320px"></img>
+            </div>
+        )
+    }
+}
+
 class Settings extends React.Component {
     render() {
         return (
             <>
-                <GridSizeInput value={this.props.gridSize} 
-                            onGridSizeChange={this.props.onGridSizeChange} />
+                <BoundsSizeInput value={this.props.boundsSize}
+                                 gameState={this.props.gameState} 
+                                 onBoundsSizeChange={this.props.onBoundsSizeChange} />
                 <StartButton onStartClick={this.props.onStartClick} />
                 <StopButton onStopClick={this.props.onStopClick} />
+                <ResetButton onResetClick={this.props.onResetClick} />
+                <Controls />
             </>
         );
     }

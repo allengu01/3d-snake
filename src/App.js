@@ -7,36 +7,59 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {change: null,
-                  gridSize: 10};
+                  gameState: "initial",
+                  boundsSize: 7};
 
-    this.handleGridSizeChange = this.handleGridSizeChange.bind(this);
+    this.handleBoundsSizeChange = this.handleBoundsSizeChange.bind(this);
     this.handleStartClick = this.handleStartClick.bind(this);
     this.handleStopClick = this.handleStopClick.bind(this);
+    this.handleResetClick = this.handleResetClick.bind(this);
+    this.handleGameOver = this.handleGameOver.bind(this);
   }
 
-  handleGridSizeChange(newSize) {
-    this.setState({change: "grid", gridSize: newSize});
+  handleBoundsSizeChange(newSize) {
+    if (this.state.gameState === "initial") {
+      this.setState({change: "bounds", boundsSize: newSize});
+    }
   }
 
   handleStartClick() {
-    this.setState({change: "start"});
+    console.log(this.state.gameState);
+    if (this.state.gameState === "initial" || this.state.gameState === "stopped") {
+      this.setState({change: "start", gameState: "started"});
+    }
   }
 
   handleStopClick() {
-    this.setState({change: "stop"});
+    if (this.state.gameState === "started") {
+      this.setState({change: "stop", gameState: "stopped"});
+    }
+  }
+
+  handleResetClick() {
+    this.setState({change: "reset", gameState: "initial"});
+  }
+
+  handleGameOver() {
+    this.setState({change: "gameover", gameState: "gameover"});
   }
 
   render() {
       return (
           <div className="App">
               <div className="App-Game">
-                  <Game change={this.state.change} gridSize={this.state.gridSize} start={this.state.start}/>
+                  <Game change={this.state.change} 
+                        boundsSize={this.state.boundsSize} 
+                        gameState={this.state.gameState}
+                        onGameOver={this.handleGameOver}/>
               </div>
               <div className="App-Settings">
-                  <Settings gridSize={this.state.gridSize}
-                            onGridSizeChange={this.handleGridSizeChange}
+                  <Settings gameState={this.state.gameState}
+                            boundsSize={this.state.boundsSize}
+                            onBoundsSizeChange={this.handleBoundsSizeChange}
                             onStartClick={this.handleStartClick}
                             onStopClick={this.handleStopClick}
+                            onResetClick={this.handleResetClick}
                   />
               </div>
           </div>
