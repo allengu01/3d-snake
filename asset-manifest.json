@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/allengu01/3d-snake/static/css/main.e4e7d73c.chunk.css",
+    "main.js": "/allengu01/3d-snake/static/js/main.397d6777.chunk.js",
+    "main.js.map": "/allengu01/3d-snake/static/js/main.397d6777.chunk.js.map",
+    "runtime-main.js": "/allengu01/3d-snake/static/js/runtime-main.efd7195e.js",
+    "runtime-main.js.map": "/allengu01/3d-snake/static/js/runtime-main.efd7195e.js.map",
+    "static/js/2.ab153e96.chunk.js": "/allengu01/3d-snake/static/js/2.ab153e96.chunk.js",
+    "static/js/2.ab153e96.chunk.js.map": "/allengu01/3d-snake/static/js/2.ab153e96.chunk.js.map",
+    "static/js/3.a82a006b.chunk.js": "/allengu01/3d-snake/static/js/3.a82a006b.chunk.js",
+    "static/js/3.a82a006b.chunk.js.map": "/allengu01/3d-snake/static/js/3.a82a006b.chunk.js.map",
+    "index.html": "/allengu01/3d-snake/index.html",
+    "static/css/main.e4e7d73c.chunk.css.map": "/allengu01/3d-snake/static/css/main.e4e7d73c.chunk.css.map",
+    "static/js/2.ab153e96.chunk.js.LICENSE.txt": "/allengu01/3d-snake/static/js/2.ab153e96.chunk.js.LICENSE.txt",
+    "static/media/controls.8c7292f0.svg": "/allengu01/3d-snake/static/media/controls.8c7292f0.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.efd7195e.js",
+    "static/js/2.ab153e96.chunk.js",
+    "static/css/main.e4e7d73c.chunk.css",
+    "static/js/main.397d6777.chunk.js"
+  ]
+}
