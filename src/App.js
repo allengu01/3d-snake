@@ -3,12 +3,14 @@ import React from "react";
 import Game from "./Game.js";
 import Settings from "./Settings.js";
 import Scoreboard from "./Scoreboard.js";
+import Message from "./Message.js";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {change: null,
                   gameState: "initial",
+                  message: "Press space to start",
                   boundsSize: 7,
                   score: 0};
 
@@ -30,35 +32,35 @@ class App extends React.Component {
   handleStartClick() {
     console.log(this.state.gameState);
     if (this.state.gameState === "initial" || this.state.gameState === "stopped") {
-      this.setState({change: "start", gameState: "started"});
+      this.setState({change: "start", gameState: "started", message: ""});
     }
   }
 
   handleStopClick() {
     if (this.state.gameState === "started") {
-      this.setState({change: "stop", gameState: "stopped"});
+      this.setState({change: "stop", gameState: "stopped", message: "Paused: Press space to start"});
     }
   }
 
   handleSpaceBar() {
     if (this.state.gameState === "initial" || this.state.gameState === "stopped") {
-      this.setState({change: "start", gameState: "started"});
+      this.setState({change: "start", gameState: "started", message: ""});
     }
     else if (this.state.gameState === "started") {
-      this.setState({change: "stop", gameState: "stopped"});
+      this.setState({change: "stop", gameState: "stopped", message: "Paused: Press space to start"});
     }
   }
 
   handleResetClick() {
-    this.setState({change: "reset", gameState: "initial"});
+    this.setState({change: "reset", gameState: "initial", message: "Press space to start"});
   }
 
   handleScoreChange(newScore) {
     this.setState({change: "score", score: newScore});
   }
 
-  handleGameOver() {
-    this.setState({change: "gameover", gameState: "gameover"});
+  handleGameOver(cause) {
+    this.setState({change: "gameover", gameState: "gameover", message: `Game Over: ${cause}`});
   }
 
   render() {
@@ -83,6 +85,9 @@ class App extends React.Component {
               </div>
               <div className="App-Scoreboard">
                   <Scoreboard score={this.state.score} />
+              </div>
+              <div className="App-Message">
+                  <Message gameState={this.state.gameState} message={this.state.message} />
               </div>
           </div>
       );

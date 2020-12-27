@@ -89,7 +89,7 @@ class Game extends React.Component {
 		this.light.position.set(30, 30, 30);
 		this.scene.add(this.light);
 
-		this.camera.position.set(this.props.boundsSize, this.props.boundsSize, this.props.boundsSize * 1.25);
+		this.camera.position.set(this.props.boundsSize * 0.8, this.props.boundsSize * 0.8, this.props.boundsSize);
 		this.camera.lookAt(new THREE.Vector3(0, 0, 0));
 
 		this.reset();
@@ -188,8 +188,7 @@ class Game extends React.Component {
 		const previousPosition = snakeBody.position;
 		this.grid[this.hashPosition(previousPosition)] = 'empty';
 		if (this.grid[this.hashPosition(new Vector3(x, y, z))] === 'snake') {
-			console.log("Hit itself");
-			this.gameOver();
+			this.gameOver("Hit itself");
 			return;
 		}
 		else {
@@ -219,8 +218,8 @@ class Game extends React.Component {
 		this.scene.remove(this.bounds);
 		this.bounds = this.createBounds();
 		this.scene.add(this.bounds);
-
-		this.camera.position.set(newSize, newSize, newSize * 1.25);
+		this.reset();
+		this.camera.position.set(newSize * 0.8, newSize * 0.8, newSize);
 	}
 
 	changeScore(newScore) {
@@ -233,8 +232,7 @@ class Game extends React.Component {
 		// Snake goes outside boundaries
 		if (Math.abs(this.current.getComponent(0)) >= this.props.boundsSize / 2 || Math.abs(this.current.getComponent(1)) >= this.props.boundsSize / 2 || Math.abs(this.current.getComponent(2)) >= this.props.boundsSize / 2) {
 			console.log(this.current, this.props.boundsSize);
-			console.log("Out of bounds");
-			this.gameOver();
+			this.gameOver("Out of bounds");
 		}
 		else if (this.grid[this.hashPosition(this.current)] === 'food') {
 			this.changeScore(this.score + 1);
@@ -248,8 +246,8 @@ class Game extends React.Component {
 		}
 	}
 
-	gameOver() {
-		this.props.onGameOver();
+	gameOver(cause) {
+		this.props.onGameOver(cause);
 	}
 
 	startAnimation() {
@@ -271,7 +269,7 @@ class Game extends React.Component {
 
 	handleKeyDown(e) {
 		e.preventDefault();
-		if (e.keyCode == 32) {
+		if (e.keyCode === 32) {
 			this.props.onSpaceBar();
 		}
 		else if (this.props.gameState !== "started") {
