@@ -41,6 +41,60 @@
     background-color: rgba(0, 255, 0, 0.3);
 }
 
+.speed-label {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.speed-select {
+    appearance: none;
+    background-color: transparent;
+    border: 2px solid #00ff00;
+    border-radius: 1.0rem;
+    margin-top: 0.33rem;
+    margin-left: 0.5rem;
+    padding: 0.2rem 1.0rem;
+    font-family: inherit;
+    font-size: 1.0rem;
+    font-weight: 700;
+    color: #eeeeee;
+}
+
+.speed-select:active {
+    appearance: none;
+}
+
+.speed-select:hover {
+    background-color: rgba(0, 255, 0, 0.3);
+}
+
+.player-label {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.player-select {
+    appearance: none;
+    background-color: transparent;
+    border: 2px solid #00ff00;
+    border-radius: 1.0rem;
+    margin-top: 0.33rem;
+    margin-left: 0.5rem;
+    padding: 0.2rem 1.0rem;
+    font-family: inherit;
+    font-size: 1.0rem;
+    font-weight: 700;
+    color: #eeeeee;
+}
+
+.player-select:active {
+    appearance: none;
+}
+
+.player-select:hover {
+    background-color: rgba(0, 255, 0, 0.3);
+}
+
 .SettingsButtons {
     display: flex;
     justify-content: flex-start;

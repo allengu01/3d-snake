@@ -2,6 +2,7 @@ import React from "react";
 import * as THREE from "three";
 import { Vector3 } from "three";
 import "./Game.css";
+import PathAI from "./PathAI.js";
 
 const width = window.innerWidth * 2 / 3, height = window.innerHeight;
 const dirs = {"+x": new THREE.Vector3(1, 0, 0),
@@ -21,7 +22,7 @@ class Game extends React.Component {
 		this.turn.bind(this);
 		this.hashPosition.bind(this);
 		this.getRandomBetween.bind(this);
-		this.moveFoodRandom.bind(this);
+		this.moveFoodRandomly.bind(this);
 		this.createFood.bind(this);
 		this.createSnakeBody.bind(this);
 		this.moveSnakeBody.bind(this);
@@ -46,8 +47,12 @@ class Game extends React.Component {
 			this.changeBounds(this.props.boundsSize);
 			this.renderer.render(this.scene, this.camera);
 		}
+		else if (this.props.change === "player") {
+			if (this.props.player === "pathfinding") {
+				this.createPathfindingAI();
+			}
+		}
 		else if (this.props.change === "start") {
-			console.log(this.snake);
 			this.startAnimation();
 		}
 		else if (this.props.change === "stop") {
@@ -98,7 +103,7 @@ class Game extends React.Component {
 	reset() {
 		this.changeScore(0);
 		this.grid = {};
-		this.current = new THREE.Vector3(0, 0, 0);
+		this.snakeHeadPosition = new THREE.Vector3(0, 0, 0);
 		this.dir = "+z";
 
 		if (this.food) {
@@ -112,7 +117,7 @@ class Game extends React.Component {
 
 		var tmpFood = this.createFood(0, 0, 0);
 		this.scene.add(tmpFood);
-		this.food = this.moveFoodRandom(tmpFood);
+		this.food = this.moveFoodRandomly(tmpFood);
 	}
 
 	createFood(x, y, z) {
@@ -134,6 +139,7 @@ class Game extends React.Component {
 		x = x >= 0 ? x * 2 : -x * 2 - 1;
 		y = y >= 0 ? y * 2 : -y * 2 - 1;
 		z = z >= 0 ? z * 2 : -z * 2 - 1;
+		
 		function cantorPair(a, b) {
 			return (a + b) * (a + b + 1) / 2 + b;
 		}
@@ -144,7 +150,7 @@ class Game extends React.Component {
 		return Math.floor(Math.random() * (max - min) + min);
 	}
 
-	moveFoodRandom(food) {
+	moveFoodRandomly(food) {
 		this.grid[this.hashPosition(food.position)] = 'empty';
 
 		const minBound = Math.ceil(-this.props.boundsSize / 2), maxBound = Math.floor(this.props.boundsSize / 2);
@@ -187,9 +193,15 @@ class Game extends React.Component {
 	moveSnakeBody(snakeBody, x, y, z) {
 		const previousPosition = snakeBody.position;
 		this.grid[this.hashPosition(previousPosition)] = 'empty';
+
+		// Snake hits itself, then game over
 		if (this.grid[this.hashPosition(new Vector3(x, y, z))] === 'snake') {
 			this.gameOver("Hit itself");
 			return;
+		}
+		// Snake goes outside boundaries, then also game over
+		else if (Math.abs(x) >= this.props.boundsSize / 2 || Math.abs(y) >= this.props.boundsSize / 2 || Math.abs(z) >= this.props.boundsSize / 2) {
+			this.gameOver("Out of bounds");
 		}
 		else {
 			this.snake.splice(this.snake.indexOf(snakeBody), 1);
@@ -228,21 +240,32 @@ class Game extends React.Component {
 	}
 
 	turn() {
-		this.current.add(dirs[this.dir]);
-		// Snake goes outside boundaries
-		if (Math.abs(this.current.getComponent(0)) >= this.props.boundsSize / 2 || Math.abs(this.current.getComponent(1)) >= this.props.boundsSize / 2 || Math.abs(this.current.getComponent(2)) >= this.props.boundsSize / 2) {
-			console.log(this.current, this.props.boundsSize);
-			this.gameOver("Out of bounds");
-		}
-		else if (this.grid[this.hashPosition(this.current)] === 'food') {
+		this.snakeHeadPosition.add(dirs[this.dir]);
+
+		// Snake eats food
+		if (this.grid[this.hashPosition(this.snakeHeadPosition)] === 'food') {
 			this.changeScore(this.score + 1);
-			this.moveFoodRandom(this.food);
-			this.createSnakeBody(this.current.getComponent(0), this.current.getComponent(1), this.current.getComponent(2));
+			this.moveFoodRandomly(this.food);
+			this.createSnakeBody(this.snakeHeadPosition.getComponent(0), this.snakeHeadPosition.getComponent(1), this.snakeHeadPosition.getComponent(2));
 			this.renderer.render(this.scene, this.camera);
 		}
+		// Snake moves
 		else {
-			this.moveSnakeBody(this.snake[0], this.current.getComponent(0), this.current.getComponent(1), this.current.getComponent(2));
+			this.moveSnakeBody(this.snake[0], this.snakeHeadPosition.getComponent(0), this.snakeHeadPosition.getComponent(1), this.snakeHeadPosition.getComponent(2));
 			this.renderer.render(this.scene, this.camera);
+		}
+
+		// If AI is playing the game, have AI input the next move
+		if (this.props.player === "pathfinding") {
+			if (this.ai && this.ai instanceof PathAI) {
+				var aiInput = this.ai.nextMove(this.grid, this.props.boundsSize, this.snakeHeadPosition, this.food.position);
+				if (aiInput) {
+					this.dir = aiInput;
+				}
+			}
+			else {
+				console.log("AI Object does not exist or is not an instance of PathAI");
+			}
 		}
 	}
 
@@ -257,7 +280,7 @@ class Game extends React.Component {
 					this.animation = requestAnimationFrame(animate);
 					this.turn();
 				}
-			}, 1000 / 1.5);
+			}, 1000 / this.props.speed);
 		};
 		
 		this.animation = requestAnimationFrame(animate);
@@ -272,7 +295,7 @@ class Game extends React.Component {
 		if (e.keyCode === 32) {
 			this.props.onSpaceBar();
 		}
-		else if (this.props.gameState !== "started") {
+		else if (this.props.gameState !== "started" || this.props.player !== "you") {
 			return;
 		}
 		else {
@@ -300,6 +323,10 @@ class Game extends React.Component {
 					break;
 			}
 		}
+	}
+
+	createPathfindingAI() {
+		this.ai = new PathAI();
 	}
 
 	render() {

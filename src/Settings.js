@@ -10,6 +10,7 @@ class Instructions extends React.Component {
                 <ol>
                     <li>Choose the size.</li>
                     <li>Click "Start" or use the space bar to begin playing.</li>
+                    <li>Check out my Pathfinding AI play the game (under "Player"). Keep the size to "Small".</li>
                     <li>Have fun :)</li>
                 </ol>
             </div>
@@ -20,27 +21,70 @@ class Instructions extends React.Component {
 class BoundsSizeInput extends React.Component {
     constructor(props) {
         super(props);
-        this.handleChange = this.handleChange.bind(this);
     }
 
-    handleChange(e) {
-        if (this.props.gameState === "initial") {
-            this.props.onBoundsSizeChange(e.target.value);
-        }
+    handleChange = (e) => {
+        this.props.onBoundsSizeChange(e.target.value);
     }
 
     render() {
         return (
-            <label className="bounds-size-label">
-                Size: 
-                <select className="bounds-size-select" value={this.props.value} onChange={this.handleChange}>
-                    <option value="7">Small</option>
-                    <option value="15">Medium</option>
-                    <option value="25">Large</option>
-                </select>
-            </label>
-
+            <div>
+                <label className="bounds-size-label">
+                    Size: 
+                    <select className="bounds-size-select" value={this.props.value} onChange={this.handleChange}>
+                        <option value="7">Small</option>
+                        <option value="15">Medium</option>
+                        <option value="25">Large</option>
+                    </select>
+                </label>
+            </div>
         );
+    }
+}
+
+class SpeedInput extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    handleChange = (e) => {
+        this.props.onSpeedChange(e.target.value);
+    }
+
+    render() {
+        return (
+            <div>
+                <label className="speed-label">
+                    Speed: 
+                    <select className="speed-select" value={this.props.value} onChange={this.handleChange}>
+                        <option value="1.5">Slow</option>
+                        <option value="3">Medium</option>
+                        <option value="6">Fast</option>
+                    </select>
+                </label>
+            </div>
+        );
+    }
+}
+
+class PlayerInput extends React.Component {
+    handleChange = (e) => {
+        this.props.onPlayerChange(e.target.value);
+    }
+
+    render() {
+        return (
+            <div>
+                <label className="player-label">
+                    Player: 
+                    <select className="player-select" value={this.props.value} onChange={this.handleChange}>
+                        <option value="you">You</option>
+                        <option value="pathfinding">Pathfinding AI</option>
+                    </select>
+                </label>
+            </div>
+        )
     }
 }
 
@@ -119,9 +163,7 @@ class ToDoList extends React.Component {
                 To Do:
                 <ul>
                     <li>Better 3D depth or grid?</li>
-                    <li>First person mode</li>
                     <li>Leaderboard</li>
-                    <li>Pathfinding AI</li>
                 </ul>
             </div>
         )
@@ -134,8 +176,11 @@ class Settings extends React.Component {
             <div className="Settings">
                 <Instructions />
                 <BoundsSizeInput value={this.props.boundsSize}
-                                 gameState={this.props.gameState} 
                                  onBoundsSizeChange={this.props.onBoundsSizeChange} />
+                <SpeedInput value={this.props.speed}
+                            onSpeedChange={this.props.onSpeedChange} />
+                <PlayerInput value={this.props.player}
+                             onPlayerChange={this.props.onPlayerChange} />
                 <div className="SettingsButtons">
                     <StartButton onStartClick={this.props.onStartClick} />
                     <StopButton onStopClick={this.props.onStopClick} />
