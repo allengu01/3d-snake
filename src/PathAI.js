@@ -39,7 +39,6 @@ class PathAI {
             var queue = [new PositionPath(start.clone(), [])];
 
             while (queue.length) {
-                console.log(queue.length);
                 const currentPositionPath = queue.shift();
                 const currentPosition = currentPositionPath.position;
                 const currentPath = currentPositionPath.path;
@@ -65,8 +64,6 @@ class PathAI {
             return [];
         }
 
-        // const currentHeadPosition = [currentHeadVector.getComponent(0), currentHeadVector.getComponent(1), currentHeadVector.getComponent(2)];
-        // const foodPosition = [foodVector.getComponent(0), foodVector.getComponent(1), foodVector.getComponent(2)];
         const path = bfs(currentHeadPosition, foodPosition);
         if (path) {
             return path[0];

@@ -151,8 +151,6 @@ class Game extends React.Component {
 	}
 
 	moveFoodRandomly(food) {
-		this.grid[this.hashPosition(food.position)] = 'empty';
-
 		const minBound = Math.ceil(-this.props.boundsSize / 2), maxBound = Math.floor(this.props.boundsSize / 2);
 		var empties = [];
 		for (let x = minBound; x <= maxBound; x++) {
@@ -165,10 +163,12 @@ class Game extends React.Component {
 				}
 			}
 		}
+		this.grid[this.hashPosition(food.position)] = 'empty';
 		const idx = this.getRandomBetween(0, empties.length);
-		const position = empties[idx];
-		food.position.set(position.getComponent(0), position.getComponent(1), position.getComponent(2));
-		this.grid[this.hashPosition(position)] = 'food';
+		const newFoodPosition = empties[idx];
+		console.log("FOOD", newFoodPosition);
+		food.position.set(newFoodPosition.getComponent(0), newFoodPosition.getComponent(1), newFoodPosition.getComponent(2));
+		this.grid[this.hashPosition(newFoodPosition)] = 'food';
 		return food;
 	}
 
@@ -241,7 +241,7 @@ class Game extends React.Component {
 
 	turn() {
 		this.snakeHeadPosition.add(dirs[this.dir]);
-
+		console.log("SNAKE:", this.snakeHeadPosition);
 		// Snake eats food
 		if (this.grid[this.hashPosition(this.snakeHeadPosition)] === 'food') {
 			this.changeScore(this.score + 1);
