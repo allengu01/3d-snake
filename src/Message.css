@@ -1,0 +1,32 @@
+.Message-Container {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 67vw;
+    height: 100vh;
+    left: 0;
+    top: 0;
+}
+
+.Message {
+    top: 20px;
+    color: #eeeeee;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1.0rem;
+    font-weight: 700;
+    border: 2px solid #00ff00;
+    background: rgba(0, 255, 0, 0.4);
+    border-radius: 20px;
+    padding: 0.2rem 1.0rem 0.2rem 1.0rem;
+    text-align: center;
+}
+
+#gameover {
+    border: 2px solid #ff0000;
+    background: rgba(255, 0, 0, 0.4);
+}
+
+#started {
+    visibility: hidden;
+}

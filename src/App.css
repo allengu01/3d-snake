@@ -1,7 +1,6 @@
-* {
-  box-sizing: border-box;
+body {
+  background-color: #222222;
 }
-
 .App-Game {
   position: absolute;
   left: 0;
